@@ -1,4 +1,4 @@
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ProWebView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6331)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ProWebView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6331) [![](https://jitpack.io/v/vic797/prowebview.svg)](https://jitpack.io/#vic797/prowebview)
 
 # ProWebView
 ProWebView is another WebView for Android with more functionality and without the hell of the WebViewClient and the WebChromeClient. With ProWebView you don't have to worry about asking permissions, file download, file upload, JS alerts and dialogs, links without protocols, cache managing and/or cookies managing.
@@ -18,7 +18,7 @@ And add this dependence to the app-level gradle:
 
 ```gradle
 dependencies {
-    compile 'com.github.vic797:prowebview:-SNAPSHOT'
+    compile 'com.github.vic797:prowebview:1.1'
 }
 ```
 
