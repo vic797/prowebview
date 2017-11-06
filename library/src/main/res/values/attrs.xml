@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2017 Victor Campos
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<resources>
+
+    <declare-styleable name="ProWebView">
+        <attr name="blankHtml" format="string" />
+        <attr name="home" format="string" />
+        <attr name="blacklist" format="reference" />
+        <attr name="privateMode" format="boolean" />
+        <attr name="blockAds" format="boolean" />
+        <attr name="targetView" format="reference" />
+        <attr name="locationMode" format="enum">
+            <enum name="modeBoth" value="1" />
+            <enum name="modeFine" value="2" />
+            <enum name="modeCoarse" value="3" />
+        </attr>
+        <attr name="javascriptEnabled" format="boolean" />
+        <attr name="locationEnabled" format="boolean" />
+        <attr name="cookiesEnabled" format="boolean" />
+        <attr name="thirdPartyCookiesEnabled" format="boolean" />
+        <attr name="cacheMode" format="enum">
+            <enum name="cacheElseNetwork" value="1" />
+            <enum name="cacheOnly" value="2" />
+            <enum name="cacheDefault" value="3" />
+            <enum name="noCache" value="4" />
+        </attr>
+        <attr name="nestedScrollingEnabled" format="boolean" />
+        <attr name="defaultProtocol" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ProWebViewControls">
+        <attr name="controlMode" format="enum">
+            <enum name="modeZoom" value="0" />
+            <enum name="modeNavigation" value="1" />
+            <enum name="modeDual" value="2" />
+        </attr>
+        <attr name="hideTimeout" format="integer" />
+    </declare-styleable>
+
+</resources>

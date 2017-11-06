@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\9a60ed7e4f18913514c5e9d1cf5d3b38011f46af\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_5a91ac70fa6a223887667d28dd0f672badfb8747.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\Documents\prowebview-master\library\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="3aab1e5ec9cd77a15e132fcafc521f101d5b07cd">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_fc6ad73364c97ba2b1b8d1f33f884b22962765fe.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\9a60ed7e4f18913514c5e9d1cf5d3b38011f46af\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5a91ac70fa6a223887667d28dd0f672badfb8747\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\38a999a33adde4dbcbbea2fe93d1af69b1f7c980\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_ee66671b1c91f56ce418605dc56249956329e5d4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\87d5bf68718213936196e71e8b13d3d389a7fbff\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_78ff40f5c756a676ed9dc30ee57ea28b14f1b030.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\38a999a33adde4dbcbbea2fe93d1af69b1f7c980\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ee66671b1c91f56ce418605dc56249956329e5d4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\87d5bf68718213936196e71e8b13d3d389a7fbff\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_78ff40f5c756a676ed9dc30ee57ea28b14f1b030\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\803cb12e434bcb0e36d95c38c9d39a422fcf3878\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_c415cb1b07dadf432ca1426291e0f5ccf6356434.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\803cb12e434bcb0e36d95c38c9d39a422fcf3878\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c415cb1b07dadf432ca1426291e0f5ccf6356434\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="5df7b97c98fdfa5c82f6728250e9cad9bff0ef79">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_3e1fbda687ad2260ad83931718244f4c3506a109\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-26.0.0-alpha1_a01bb635e25e47a099ffcedc6b128e06f9b8aa10\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\constraint-layout-solver-1.0.2_5cccf7aad4dd6b0147d36984e822fde578ed4ab8\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\6e991b609963c3cfcd6593a54ec70ba3e24946d8\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_1cda1aba307595d4e2419aca07432cc07ae0bfd4.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\6e991b609963c3cfcd6593a54ec70ba3e24946d8\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_1cda1aba307595d4e2419aca07432cc07ae0bfd4\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\383934ac4761fe90f7713b6f81d4bdc791f0fa1d\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_2b9766bdc303a5d7ecda63076ce2b5db8faaf99e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\support-annotations-26.0.0-alpha1_a01bb635e25e47a099ffcedc6b128e06f9b8aa10.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\383934ac4761fe90f7713b6f81d4bdc791f0fa1d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_2b9766bdc303a5d7ecda63076ce2b5db8faaf99e\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\6e1ed2d97f82b0271252683455508f89f245b86d\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_58ac868975cb86643683f2aa94846a49c1d7984f.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\6e1ed2d97f82b0271252683455508f89f245b86d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_58ac868975cb86643683f2aa94846a49c1d7984f\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\ee6b07496f85ea79dabeb870102f10e23793b3da\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_d0a1ba58f1f8c0f3837cbef827b2838bb951a22c.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\ee6b07496f85ea79dabeb870102f10e23793b3da\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d0a1ba58f1f8c0f3837cbef827b2838bb951a22c\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Victor\.android\build-cache\556cd21741b62f4bb46a242aa122a1c8f9348894\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\pre-dexed\debug\classes_ef64cfc50decd6e5820cfae112bcbb5c251f2da3.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_3811c3e22c2b23f3514e22422335d158b61f2f11\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\556cd21741b62f4bb46a242aa122a1c8f9348894\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ef64cfc50decd6e5820cfae112bcbb5c251f2da3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Victor\.android\build-cache\912868d620bdeec13687c763a1d05f3afac82b95\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\Victor\Documents\prowebview-master\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d48f6680866bc33285ad030b9595b22bf72f0a7b\classes.dex" />
+    </item>
+
+</items>
