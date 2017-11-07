@@ -1757,6 +1757,16 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                     }
                 }
             }
+        } else {
+            Log.i(TAG, "Cancelled");
+            if (filePathCallback!=null) {
+                filePathCallback.onReceiveValue(null);
+                filePathCallback = null;
+            }
+            if (uriCallback!=null) {
+                uriCallback.onReceiveValue(null);
+                uriCallback = null;
+            }
         }
     }
 
@@ -1982,10 +1992,14 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
             }
             return false;
         }
-        if (filePathCallback!=null)
-            filePathCallback.onReceiveValue(null);
-        if (uriCallback!=null)
-            uriCallback.onReceiveValue(null);
+        if (filePathCallback!=null) {
+            filePathCallback.onReceiveValue(new Uri[]{});
+            filePathCallback = null;
+        }
+        if (this.uriCallback!=null) {
+            this.uriCallback.onReceiveValue(null);
+            this.uriCallback = null;
+        }
         Intent intent= new Intent();
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -2005,7 +2019,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
             this.uriCallback = null;
         } else if (uriCallback!=null) {
             this.filePathCallback = null;
-            this.uriCallback = null;
+            this.uriCallback = uriCallback;
         }
         String title = getResources().getString(R.string.file_picker);
         if (Build.VERSION.SDK_INT>=21) {
