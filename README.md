@@ -18,7 +18,7 @@ And add this dependence to the app-level gradle:
 
 ```gradle
 dependencies {
-    compile 'com.github.vic797:prowebview:1.1'
+    compile 'com.github.vic797:prowebview:VERSION'
 }
 ```
 
