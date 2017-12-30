@@ -22,7 +22,6 @@ limitations under the License.
         <attr name="blacklist" format="reference" />
         <attr name="privateMode" format="boolean" />
         <attr name="blockAds" format="boolean" />
-        <attr name="targetView" format="reference" />
         <attr name="locationMode" format="enum">
             <enum name="modeBoth" value="1" />
             <enum name="modeFine" value="2" />

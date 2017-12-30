@@ -341,11 +341,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                     this.blacklist.add(sequence.toString());
             }
             setPrivateBrowsingEnabled(array.getBoolean(R.styleable.ProWebView_privateMode, false));
-            blockAds(array.getBoolean(R.styleable.ProWebView_targetView, false));
-            int id = array.getResourceId(R.styleable.ProWebView_targetView, 0);
-            View view = ((Activity) getContext()).findViewById(id);
-            if (view instanceof ViewGroup)
-                setTargetView((ViewGroup) view);
+            blockAds(array.getBoolean(R.styleable.ProWebView_blockAds, false));
             setGeolocationEnabled(array.getBoolean(R.styleable.ProWebView_locationEnabled, false));
             getSettings().setJavaScriptEnabled(array.getBoolean(R.styleable.ProWebView_javascriptEnabled, true));
             switch (array.getInt(R.styleable.ProWebView_locationMode, 1)){
@@ -1610,10 +1606,20 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
 
     /**
      * Get a list of all the hosts in the black list
-     * @return an unmodificable list of all the hosts in the black list
+     * @return an unmodifiable list of all the hosts in the black list
+     * @deprecated This method will be removed soon. Use {@link #getBlacklistedHostsArray()} instead
      */
+    @Deprecated
     public List<String> getBlacklistedHosts() {
         return Collections.unmodifiableList(blacklist);
+    }
+
+    /**
+     * Get a list of all the hosts in the black list
+     * @return hosts in black list
+     */
+    public String[] getBlacklistedHostsArray() {
+        return blacklist.toArray(new String[blacklist.size()]);
     }
 
     /**
@@ -1633,7 +1639,9 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     /**
      * Get the current back stack
      * @return an unmodifiableList
+     * @deprecated This method will be removed soon. Use {@link #getBackStackArray()} instead
      */
+    @Deprecated
     public List<String> getBackStack() {
         if (!privateMode)
             return Collections.unmodifiableList(backStack);
@@ -1641,12 +1649,34 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     }
 
     /**
+     * Get the current back stack
+     * @return the back stack
+     */
+    public String[] getBackStackArray() {
+        if (!privateMode)
+            return backStack.toArray(new String[backStack.size()]);
+        return null;
+    }
+
+    /**
      * Get the current forward stack
      * @return an unmodifiableList
+     * @deprecated This method will be removed soon. Use {@link #getForwardStackArray()} instead
      */
+    @Deprecated
     public List<String> getForwardStack() {
         if (!privateMode)
             return Collections.unmodifiableList(forwardStack);
+        return null;
+    }
+
+    /**
+     * Get the current forward stack
+     * @return the forward stack
+     */
+    public String[] getForwardStackArray() {
+        if (!privateMode)
+        return forwardStack.toArray(new String[forwardStack.size()]);
         return null;
     }
 
@@ -1685,9 +1715,19 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     /**
      * Get a list of all the console messages sended by the web site
      * @return and unmodificable list
+     * @deprecated This method will be removed soon. Use {@link} instead
      */
+    @Deprecated
     public List<ConsoleMessage> getConsoleMessages() {
         return Collections.unmodifiableList(consoleMessages);
+    }
+
+    /**
+     * Get a list of all the console messages sended by the web site
+     * @return console messages
+     */
+    public ConsoleMessage[] getConsoleMessagesArray() {
+        return consoleMessages.toArray(new ConsoleMessage[consoleMessages.size()]);
     }
 
     /**
@@ -1699,7 +1739,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     }
 
     /**
-     * Cancle the current source code request
+     * Cancel the current source code request
      */
     public boolean cancelCodeRequest() {
         if (codeLoader!=null) {
@@ -1758,7 +1798,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                 }
             }
         } else {
-            Log.i(TAG, "Cancelled");
             if (filePathCallback!=null) {
                 filePathCallback.onReceiveValue(null);
                 filePathCallback = null;
@@ -1771,7 +1810,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     }
 
     /**
-     * Save the curent instance
+     * Save the current instance
      */
     public void onSavedInstanceState(Bundle outState) {
         saveState(outState);
@@ -1848,9 +1887,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                         requestPermission = null;
                     }
                 }
-            }
-            if (write && read) {
-                Log.i("WebView", "Permission granted to read and write external storage");
             }
             if (fine || coarse) {
                 if (permissionCallback!=null) {
@@ -2106,14 +2142,11 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.i(TAG, "Starting source code request...");
         }
 
         @Override
         protected String doInBackground(String... strings) {
             Uri uri = Uri.parse(strings[0]);
-            Log.i("ProWebView", "Requesting source code from: " + uri.toString());
-            Log.i(TAG, "Requesting source code from: " + uri.toString());
             if (uri.getScheme().contains("http")) {
                 try {
                     URL url = new URL(strings[0]);
@@ -2150,7 +2183,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.i(TAG, "Finish. Calling callback...");
             callback.onCompleted(s);
             codeLoader = null;
         }
