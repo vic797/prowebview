@@ -159,6 +159,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         public void onCustomViewStateChanged(ProWebView webView, View customView, boolean showing) {}
         public void onDownloadStarted(ProWebView webView, String filename, String url) {}
         public void onReceivedError(ProWebView webView, ProWebResourceRequest resourceRequest, ProWebResourceError webResourceError) {}
+        public boolean shouldOverrideUrlLoading(ProWebView webView, String url) { return true; }
     }
 
     /**
@@ -292,7 +293,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                 return;
             }
             ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            @SuppressLint("MissingPermission") NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
             if (isConnected) {
                 boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
@@ -468,29 +469,36 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
 
             @Override
             public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                if (blacklist.contains(Uri.parse(url).getHost())) {
-                    if (urlRequest!=null) {
-                        urlRequest.onBlockedUrlRequest(new RequestCallback<Boolean>() {
-                            @Override
-                            public void allow(@Nullable Boolean extra) {
-                                blacklist.remove(Uri.parse(url).getHost());
-                                view.loadUrl(url);
-                            }
+                boolean doEvent = true;
+                if (proClient != null)
+                    doEvent = proClient.shouldOverrideUrlLoading((ProWebView) view, url);
+                if (doEvent) {
+                    if (blacklist.contains(Uri.parse(url).getHost())) {
+                        if (urlRequest!=null) {
+                            urlRequest.onBlockedUrlRequest(new RequestCallback<Boolean>() {
+                                @Override
+                                public void allow(@Nullable Boolean extra) {
+                                    blacklist.remove(Uri.parse(url).getHost());
+                                    view.loadUrl(url);
+                                }
 
-                            @Override
-                            public void deny(@Nullable Boolean extra) {
+                                @Override
+                                public void deny(@Nullable Boolean extra) {
 
-                            }
-                        }, url);
+                                }
+                            }, url);
+                        }
+                        view.reload();
+                        return true;
+                    } else {
+                        String scheme = Uri.parse(url).getScheme();
+                        if (schemeHashMap.containsKey(scheme))
+                            return schemeHashMap.get(scheme).onSchemeRequested((ProWebView) view, url);
                     }
-                    view.reload();
-                    return true;
+                    return super.shouldOverrideUrlLoading(view, url);
                 } else {
-                    String scheme = Uri.parse(url).getScheme();
-                    if (schemeHashMap.containsKey(scheme))
-                        return schemeHashMap.get(scheme).onSchemeRequested((ProWebView) view, url);
+                    return false;
                 }
-                return super.shouldOverrideUrlLoading(view, url);
             }
 
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -863,7 +871,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         if ((checkPermission(Manifest.permission.ACCESS_NETWORK_STATE))&&(checkPermission(Manifest.permission.ACCESS_WIFI_STATE))) {
             getContext().registerReceiver(connectionStatusBroadcast, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
             ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            @SuppressLint("MissingPermission") NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
             if (isConnected) {
                 boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
