@@ -21,4 +21,8 @@
         android:id="@+id/upload_test"
         android:title="Upload Test" />
 
+    <item
+        android:id="@+id/custom_scheme"
+        android:title="Custom scheme test" />
+
 </menu>

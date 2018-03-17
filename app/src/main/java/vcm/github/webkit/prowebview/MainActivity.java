@@ -20,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         webView = (ProWebView) findViewById(R.id.webview);
         webView.setActivity(this);
+        webView.addSpecialScheme("test", new ProWebView.SchemeRequest() {
+            @Override
+            public boolean onSchemeRequested(ProWebView view, String url) {
+                view.loadHtml("<h1>Loaded scheme &quot;test&quot;</h1>", url, url, "utf-8");
+                return true;
+            }
+        });
         ProWebViewControls controls = (ProWebViewControls) findViewById(R.id.controls);
         controls.setProWebView(webView);
     }
@@ -66,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.upload_test:
                 webView.loadUrl("https://encodable.com/uploaddemo/");
+                break;
+            case R.id.custom_scheme:
+                webView.loadUrl("test://scheme");
                 break;
         }
         return true;

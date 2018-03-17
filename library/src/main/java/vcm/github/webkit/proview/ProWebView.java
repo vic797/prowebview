@@ -490,10 +490,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                         }
                         view.reload();
                         return true;
-                    } else {
-                        String scheme = Uri.parse(url).getScheme();
-                        if (schemeHashMap.containsKey(scheme))
-                            return schemeHashMap.get(scheme).onSchemeRequested((ProWebView) view, url);
                     }
                     return super.shouldOverrideUrlLoading(view, url);
                 } else {
@@ -1080,7 +1076,13 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
             showBlank();
         else {
             if (hasProtocol(url)) {
-                super.loadUrl(url);
+                String scheme = Uri.parse(url).getScheme();
+                if (schemeHashMap.containsKey(scheme)) {
+                    boolean loaded = schemeHashMap.get(scheme).onSchemeRequested(this, url);
+                    if (!loaded)
+                        super.loadUrl(url);
+                } else
+                    super.loadUrl(url);
             } else {
                 super.loadUrl(defaultProtocol + "://" + url);
             }
@@ -1097,7 +1099,13 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
             showBlank();
         else {
             if (hasProtocol(url)) {
-                super.loadUrl(url, additionalHttpHeaders);
+                String scheme = Uri.parse(url).getScheme();
+                if (schemeHashMap.containsKey(scheme)) {
+                    boolean loaded = schemeHashMap.get(scheme).onSchemeRequested(this, url);
+                    if (!loaded)
+                        super.loadUrl(url, additionalHttpHeaders);
+                } else
+                    super.loadUrl(url, additionalHttpHeaders);
             } else {
                 super.loadUrl(defaultProtocol + "://" + url, additionalHttpHeaders);
             }
