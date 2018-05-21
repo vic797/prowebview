@@ -98,7 +98,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -129,11 +128,9 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  * android.permission.READ_EXTERNAL_STORAGE and android.permission.WRITE_EXTERNAL_STORAGE: required fo the download manager if enabled.
  * android.permission.ACCESS_FINE_LOCATION: required if the location is enabled and the location mode is setted to `modeFine` or `modeBoth`.
  * android.permission.ACCESS_COARSE_LOCATION: required if the location is enabled and the location mode is setted to `modeCoarse` or `modeBoth`.
- * android.permission.CAMERA: <b>optional</b>. Used for JS camera API.
- * android.permission.RECORD_AUDIO: <b>optional</b>. Used for JS microphone API
  * android.permission.ACCESS_NETWORK_STATE and android.network.ACCESS_WIFI_STATE: <b>optional</b>. Used for getting the current network mode.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ProWebView extends WebView implements DownloadListener, NestedScrollingChild {
 
     /**
@@ -196,7 +193,11 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
      * Callback for permissions requests
      */
     public interface PermissionCallback {
-        @RequiresApi(21) void onPermissionRequested(RequestCallback<String[]> callback, String[] permission);
+        @Deprecated
+        @RequiresApi(21)
+        void onPermissionRequested(RequestCallback<String[]> callback, String[] permission);
+        @RequiresApi(21)
+        void onPermissionRequested(PermissionRequest permissionRequest);
         void onGeolocationPermission(RequestCallback<Boolean> callback);
     }
 
@@ -234,7 +235,8 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     public enum ConnectionMode {
         CONNECTION_4G,
         CONNECTION_WIFI,
-        CONNECTION_NONE
+        CONNECTION_NONE,
+        CONNECTION_UNKNOWN
     }
 
     private String aboutBlankHtml;
@@ -270,6 +272,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     private LocationMode locationMode;
     private GeolocationPermissions.Callback geoCallback;
     private PermissionCallback permissionCallback;
+    private PendingDownload pendingDownload;
 
     private PermissionRequest requestPermission;
 
@@ -293,6 +296,11 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                 return;
             }
             ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm == null) {
+                networkEnabled = false;
+                connectionMode = ConnectionMode.CONNECTION_UNKNOWN;
+                return;
+            }
             @SuppressLint("MissingPermission") NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
             if (isConnected) {
@@ -499,7 +507,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
 
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            public WebResourceResponse shouldInterceptRequest(WebView view, @NonNull WebResourceRequest request) {
                 return shouldInterceptRequest(view, request.getUrl().toString());
             }
 
@@ -535,7 +543,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
             }
 
             @Override
-            public void onFormResubmission(WebView view, final Message dontResend, final Message resend) {
+            public void onFormResubmission(@NonNull WebView view, final Message dontResend, final Message resend) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle(view.getTitle())
                         .setMessage(R.string.resend_message)
@@ -557,11 +565,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         };
         super.setWebViewClient(webViewClient);
         WebChromeClient webChromeClient = new WebChromeClient(){
-
-            @Override
-            public void onConsoleMessage(String message, int lineNumber, String sourceID) {
-                onConsoleMessage(new ConsoleMessage(message, sourceID, lineNumber, ConsoleMessage.MessageLevel.LOG));
-            }
 
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
@@ -820,45 +823,13 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                     proClient.onProgressChanged(ProWebView.this, newProgress);
             }
 
+            @SuppressLint("NewApi")
             @Override
             public void onPermissionRequest(PermissionRequest request) {
-                if (Build.VERSION.SDK_INT>=21) {
-                    requestPermission = request;
-                    List<String> permissions = Arrays.asList(request.getResources());
-                    String[] dangerousPermissions = new String[2];
-                    if (permissions.contains(PermissionRequest.RESOURCE_AUDIO_CAPTURE)) {
-                        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED)
-                            dangerousPermissions[0] = Manifest.permission.RECORD_AUDIO;
-                    }
-                    if (permissions.contains(PermissionRequest.RESOURCE_VIDEO_CAPTURE)) {
-                        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                            dangerousPermissions[1] = Manifest.permission.CAMERA;
-                    }
-                    if (dangerousPermissions.length!=0) {
-                        ActivityCompat.requestPermissions(activity, dangerousPermissions, PERMISSION_REQUEST);
-                    } else {
-                        if (permissionCallback!=null)
-                            permissionCallback.onPermissionRequested(new RequestCallback<String[]>() {
-                                @Override
-                                public void allow(String[] extra) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        requestPermission.grant(extra);
-                                    }
-                                    requestPermission = null;
-                                }
-
-                                @Override
-                                public void deny(String[] extra) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        requestPermission.deny();
-                                    }
-                                    requestPermission = null;
-                                }
-                            }, request.getResources());
-                    }
-                } else {
+                if (permissionCallback != null)
+                    permissionCallback.onPermissionRequested(request);
+                else
                     super.onPermissionRequest(request);
-                }
             }
         };
         super.setWebChromeClient(webChromeClient);
@@ -867,6 +838,11 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         if ((checkPermission(Manifest.permission.ACCESS_NETWORK_STATE))&&(checkPermission(Manifest.permission.ACCESS_WIFI_STATE))) {
             getContext().registerReceiver(connectionStatusBroadcast, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
             ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm == null) {
+                networkEnabled = false;
+                connectionMode = ConnectionMode.CONNECTION_UNKNOWN;
+                return;
+            }
             @SuppressLint("MissingPermission") NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
             if (isConnected) {
@@ -893,6 +869,9 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         if ((activity==null)&&(fragment==null)) {
             throw new NullPointerException();
         }
+        DownloadManager dm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        if (dm == null)
+            return;
         assert activity != null;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED) {
             if (activity!=null) {
@@ -906,6 +885,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                         Manifest.permission.READ_EXTERNAL_STORAGE
                 }, PERMISSION_REQUEST);
             }
+            pendingDownload = new PendingDownload(url, userAgent, contentDisposition, mimetype, contentLength);
             return;
         }
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -919,7 +899,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimetype));
-        DownloadManager dm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
         dm.enqueue(request);
         if (proClient !=null)
             proClient.onDownloadStarted(this, getLastPathOfUri(url), url);
@@ -1002,6 +981,8 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
      * @see #addOnTouchListener(OnTouchListener)
      * @see #removeTouchListener(OnTouchListener)
      */
+    @SuppressWarnings("deprecation")
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         boolean returnValue = false;
@@ -1487,7 +1468,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     }
 
     /**
-     * Delete the current bnrowsing data
+     * Delete the current browsing data
      */
     public void deleteData() {
         clearCache(true);
@@ -1730,8 +1711,8 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
 
     /**
      * Get a list of all the console messages sended by the web site
-     * @return and unmodificable list
-     * @deprecated This method will be removed soon. Use {@link} instead
+     * @return and unmodifiable list
+     * @deprecated This method will be removed soon. Use {@link #getConsoleMessagesArray()} instead
      */
     @Deprecated
     public List<ConsoleMessage> getConsoleMessages() {
@@ -1749,8 +1730,14 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     /**
      * Get the source code of the current web site in an {@link AsyncTask}
      */
-    public void getSourceCode(@NonNull SourceCodeCallback callback) {
-        codeLoader = new AsyncCodeLoader(callback);
+    public void getSourceCode(@NonNull final SourceCodeCallback callback) {
+        codeLoader = new AsyncCodeLoader(new SourceCodeCallback() {
+            @Override
+            public void onCompleted(String code) {
+                callback.onCompleted(code);
+                codeLoader = null;
+            }
+        });
         codeLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getUrl());
     }
 
@@ -1774,12 +1761,18 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         PrintManager printManager = (PrintManager) getContext().getSystemService(Context.PRINT_SERVICE);
         PrintDocumentAdapter printAdapter = createPrintDocumentAdapter();
         PrintAttributes.Builder builder = new PrintAttributes.Builder();
-        builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
-        PrintJob printJob = printManager.print(getTitle(), printAdapter, builder.build());
-        if (listener!=null) {
-            if(printJob.isCompleted()){
-                listener.onSuccess();
-            } else {
+        builder.setMediaSize(PrintAttributes.MediaSize.NA_LETTER);
+        if (printManager != null) {
+            PrintJob printJob = printManager.print(getTitle(), printAdapter, builder.build());
+            if (listener!=null) {
+                if(printJob.isCompleted()){
+                    listener.onSuccess();
+                } else {
+                    listener.onFailed();
+                }
+            }
+        } else {
+            if (listener != null) {
                 listener.onFailed();
             }
         }
@@ -1843,9 +1836,8 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
      * <b>Important</b>
      * This is the permission manager system
      */
+    @SuppressLint("NewApi")
     public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        boolean camera = false;
-        boolean mic = false;
         boolean write = false;
         boolean read = false;
         boolean fine = false;
@@ -1855,12 +1847,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                 String permission = permissions[i];
                 int result = grantResults[i];
                 switch (permission) {
-                    case Manifest.permission.CAMERA:
-                        camera = result==PackageManager.PERMISSION_GRANTED;
-                        break;
-                    case Manifest.permission.RECORD_AUDIO:
-                        mic = result==PackageManager.PERMISSION_GRANTED;
-                        break;
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         write = result==PackageManager.PERMISSION_GRANTED;
                         break;
@@ -1873,35 +1859,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                     case Manifest.permission.ACCESS_COARSE_LOCATION:
                         coarse = result==PackageManager.PERMISSION_GRANTED;
                         break;
-                }
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (camera && mic) {
-                    if (permissionCallback != null) {
-                        permissionCallback.onPermissionRequested(new RequestCallback<String[]>() {
-
-                            @Override
-                            public void allow(@Nullable String[] extra) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    requestPermission.grant(extra);
-                                }
-                                requestPermission = null;
-                            }
-
-                            @Override
-                            public void deny(@Nullable String[] extra) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    requestPermission.deny();
-                                }
-                                requestPermission = null;
-                            }
-                        }, requestPermission.getResources());
-                    } else{
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            requestPermission.deny();
-                        }
-                        requestPermission = null;
-                    }
                 }
             }
             if (fine || coarse) {
@@ -1930,6 +1887,12 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                     geoCallback.invoke(geoOrigin, false, false);
                     geoCallback = null;
                     geoOrigin = null;
+                }
+            }
+            if (write && read) {
+                if (pendingDownload != null) {
+                    onDownloadStart(pendingDownload.getUrl(), pendingDownload.getUserAgent(), pendingDownload.getContent(), pendingDownload.getMime(), pendingDownload.getLen());
+                    pendingDownload = null;
                 }
             }
         }
@@ -2076,8 +2039,9 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         String title = getResources().getString(R.string.file_picker);
         if (Build.VERSION.SDK_INT>=21) {
             try {
+                //noinspection ConstantConditions
                 title = fileChooserParams.getTitle().toString();
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
                 Log.e(TAG, e.getMessage());
             }
         }
@@ -2100,17 +2064,11 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         }
 
         private void init() {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        loadFromAssets(context);
-                    } catch (IOException e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-                    return null;
-                }
-            }.execute();
+            try {
+                loadFromAssets(context);
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
         }
 
         @WorkerThread
@@ -2146,7 +2104,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
 
     }
 
-    private class AsyncCodeLoader extends AsyncTask<String, Void, String> {
+    private static class AsyncCodeLoader extends AsyncTask<String, Void, String> {
 
         private @NonNull
         SourceCodeCallback callback;
@@ -2163,6 +2121,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         @Override
         protected String doInBackground(String... strings) {
             Uri uri = Uri.parse(strings[0]);
+            StringBuilder sb = new StringBuilder();
             if (uri.getScheme().contains("http")) {
                 try {
                     URL url = new URL(strings[0]);
@@ -2170,11 +2129,12 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                             new InputStreamReader(url.openStream()));
 
                     String inputLine;
-                    String out = "";
-                    while ((inputLine = in.readLine()) != null)
-                        out += inputLine + "\n";
+                    while ((inputLine = in.readLine()) != null) {
+                        sb.append(inputLine);
+                        sb.append('\n');
+                    }
                     in.close();
-                    return out;
+                    return sb.toString();
                 } catch (IOException e) {
                     Log.e(TAG, e.getMessage());
                     return "\n";
@@ -2183,12 +2143,13 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                 try {
                     File file = new File(uri.getPath());
                     BufferedReader br = new BufferedReader(new FileReader(file));
-                    String line, content = "";
+                    String line;
                     while ((line = br.readLine()) != null) {
-                        content += line + "\n";
+                        sb.append(line);
+                        sb.append('\n');
                     }
                     br.close();
-                    return content;
+                    return sb.toString();
                 } catch (IOException e) {
                     Log.e(TAG, e.getMessage());
                     return "\n";
@@ -2200,7 +2161,6 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             callback.onCompleted(s);
-            codeLoader = null;
         }
     }
 

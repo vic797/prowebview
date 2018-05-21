@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        webView = (ProWebView) findViewById(R.id.webview);
+        webView = findViewById(R.id.webview);
         webView.setActivity(this);
         webView.addSpecialScheme("test", new ProWebView.SchemeRequest() {
             @Override
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        ProWebViewControls controls = (ProWebViewControls) findViewById(R.id.controls);
+        ProWebViewControls controls = findViewById(R.id.controls);
         controls.setProWebView(webView);
     }
 
