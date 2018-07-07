@@ -266,6 +266,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
     private boolean networkEnabled;
     private ConnectionMode connectionMode;
     private List<OnTouchListener> touchListeners;
+    private BroadcastReceiver downloadBroadcast;
 
     private String geoOrigin;
     private boolean geolocationEnabled;
@@ -499,10 +500,8 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
                         view.reload();
                         return true;
                     }
-                    return super.shouldOverrideUrlLoading(view, url);
-                } else {
-                    return false;
                 }
+                return doEvent;
             }
 
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -1462,7 +1461,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
      *
      * @return true if connected
      */
-    @RequiresPermission(allOf = {Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_NETWORK_STATE})
+    @RequiresPermission(allOf = {Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE})
     public boolean isNetworkAvailable() {
         return (checkPermission(Manifest.permission.ACCESS_NETWORK_STATE)) && (checkPermission(Manifest.permission.ACCESS_WIFI_STATE)) && ((connectionMode != ConnectionMode.CONNECTION_NONE) && networkEnabled);
     }
@@ -1673,7 +1672,7 @@ public class ProWebView extends WebView implements DownloadListener, NestedScrol
      */
     public String[] getForwardStackArray() {
         if (!privateMode)
-        return forwardStack.toArray(new String[forwardStack.size()]);
+            return forwardStack.toArray(new String[forwardStack.size()]);
         return null;
     }
 

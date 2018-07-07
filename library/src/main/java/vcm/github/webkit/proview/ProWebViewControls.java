@@ -64,10 +64,10 @@ public class ProWebViewControls extends FrameLayout {
     public ProWebViewControls(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View view = inflate(context, R.layout.virtual_buttons, this);
-        zoomIn = (ImageButton) view.findViewById(R.id.btn_zoom_in);
-        zoomOut = (ImageButton) view.findViewById(R.id.btn_zoom_out);
-        goBottom = (ImageButton) view.findViewById(R.id.btn_bottom);
-        goTop = (ImageButton) view.findViewById(R.id.btn_top);
+        zoomIn = view.findViewById(R.id.btn_zoom_in);
+        zoomOut = view.findViewById(R.id.btn_zoom_out);
+        goBottom = view.findViewById(R.id.btn_bottom);
+        goTop = view.findViewById(R.id.btn_top);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ProWebViewControls);
         try {
             int mode = array.getInt(R.styleable.ProWebViewControls_controlMode, 2);

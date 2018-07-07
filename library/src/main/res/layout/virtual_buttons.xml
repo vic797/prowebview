@@ -21,21 +21,22 @@ limitations under the License.
     android:columnCount="2"
     android:layout_rowSpan="1"
     android:layout_columnSpan="1"
-    android:background="@android:drawable/dialog_holo_light_frame"
+    android:padding="5dp"
+    android:background="@drawable/card_background"
     android:layout_height="wrap_content"
     tools:targetApi="lollipop">
 
     <ImageButton
         android:longClickable="true"
         android:id="@+id/btn_top"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/button_background"
         android:src="@drawable/ic_vertical_align_top_grey_600_24dp"
         android:layout_width="48dp"
         android:layout_height="48dp" />
 
     <ImageButton
         android:id="@+id/btn_zoom_in"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/button_background"
         android:src="@drawable/ic_zoom_in_grey_600_24dp"
         android:layout_width="48dp"
         android:layout_height="48dp" />
@@ -43,14 +44,14 @@ limitations under the License.
     <ImageButton
         android:longClickable="true"
         android:id="@+id/btn_bottom"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/button_background"
         android:src="@drawable/ic_vertical_align_bottom_grey_600_24dp"
         android:layout_width="48dp"
         android:layout_height="48dp" />
 
     <ImageButton
         android:id="@+id/btn_zoom_out"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/button_background"
         android:src="@drawable/ic_zoom_out_grey_600_24dp"
         android:layout_width="48dp"
         android:layout_height="48dp"/>
