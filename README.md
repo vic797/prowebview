@@ -1,5 +1,21 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ProWebView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6331) [![](https://jitpack.io/v/vic797/prowebview.svg)](https://jitpack.io/#vic797/prowebview)
 
+---
+
+# IMPORTANT
+
+As of August 2nd, 2020:
+
+I'm aware that this repository is very outdated and I really haven't had time to work on it because of life... I really wanted to make an improved version of this, in fact I wanted to make repository **read-only** and create a new version of the library because two main reasons:
+
+* **Strapdown.js** hasn't been updated in 6 years (I don't know why i decided to use it to begin with)
+* The code is a mess
+
+I'll make this repository **read-only** very soon.
+
+---
+
+
 # ProWebView
 ProWebView is another WebView for Android with more functionality and without the hell of the WebViewClient and the WebChromeClient. With ProWebView you don't have to worry about asking permissions, file download, file upload, JS alerts and dialogs, links without protocols, cache managing and/or cookies managing.
 
